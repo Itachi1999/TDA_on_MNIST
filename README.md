@@ -1,3 +1,2 @@
 # TDA_on_MNIST
-# TDA_on_MNIST
-# TDA_on_MNIST
+
