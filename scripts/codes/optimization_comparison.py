@@ -137,7 +137,15 @@ def check_p_list_is_zero(p_list):
 
 
 # Optimize
-def optimize(N, D, p_list, max_iter=10, Rpower=1, FCheck=True):
+def optimize(N, D, max_iter=10, Rpower=1, FCheck=True):
+
+    p_list = make_random_p_list(N = 25, D = 728)
+    print('Random population created')
+    while all(element == 0 for element in p_list):
+        p_list = make_random_p_list(N=25, D=728)
+    print('Since, random population all contains zeroes, again, making random population')
+
+    print('Beginning Optimisation')
 
     F_best = 0 #The highest fitness value in all iteration
     F_best_performance = 0
@@ -296,14 +304,7 @@ def optimize(N, D, p_list, max_iter=10, Rpower=1, FCheck=True):
 
 
 
-p_list = make_random_p_list(N = 25, D = 728)
-print('Random population created')
-while all(element == 0 for element in p_list):
-    p_list = make_random_p_list(N=25, D=728)
-    print('Since, random population all contains zeroes, again, making random population')
-
-print('Beginning Optimisation')
-optimize(N=25,D=728,p_list=p_list)
+optimize(N=25,D=728)
                 
 
 

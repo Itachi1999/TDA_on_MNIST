@@ -37,3 +37,15 @@
     ```bash
         MODEL FLAGS = 
     ```
+
+- Only for Classification and Optimisation of the features:
+    - FOR MNIST
+    ```bash
+        MODEL FLAGS = "--data MNIST --data_dir ../data/datasets_MNIST/ --model SVM_multiclass --optimisation yes --N 25 --max_iter 10 --concatenate yes"
+    ```
+
+    - FOR CMATER
+    ```bash
+        MODEL FLAGS = "--data CMATER --data_dir ../data/datasets_CMATER/ --model SVM_multiclass --optimisation yes --N 25 --max_iter 10 --concatenate yes"
+    ```
+
