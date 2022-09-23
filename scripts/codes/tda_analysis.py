@@ -1,4 +1,4 @@
-import imp
+#import imp
 import numpy as np
 #import matplotlib.pyplot as plt
 #from gtda.plotting import plot_heatmap
@@ -59,3 +59,5 @@ def vectorization_of_persistence(img_scaled):
 
     fig = heat_model.plot(img_heat, homology_dimension_idx=1, colorscale='jet')
     return fig, img_heat
+
+
