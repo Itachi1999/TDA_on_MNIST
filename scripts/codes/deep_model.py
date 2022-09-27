@@ -1,3 +1,5 @@
+'''This model is similar to ResNet34 Model'''
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -10,6 +12,7 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import numpy as np
 import torchvision.models as models
+from torchsummary import summary
 # Paths
 
 # train_path = './FNAC/train/'
@@ -104,21 +107,23 @@ import torchvision.models as models
 # print('Finished Training')
 
 
-class conv_block(nn.Module):
+class conv_res_block(nn.Module):
     def __init__(self,ch_in,ch_out):
-        super(conv_block,self).__init__()
-        self.conv = nn.Sequential(
-            nn.Conv2d(ch_in, ch_out, kernel_size=3,stride=1,padding=1,bias=True),
-            nn.BatchNorm2d(ch_out),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(ch_out, ch_out, kernel_size=3,stride=1,padding=1,bias=True),
-            nn.BatchNorm2d(ch_out),
-            nn.ReLU(inplace=True)
-        )
+        super(conv_res_block,self).__init__()
+        self.conv1 = nn.Conv2d(ch_in, ch_out, kernel_size=3,stride=1,padding=1,bias=True)
+        self.batch1 = nn.BatchNorm2d(ch_out)
+        self.conv2 = nn.Conv2d(ch_out, ch_out, kernel_size=3,stride=1,padding=1,bias=True)
+        self.batch2 = nn.BatchNorm2d(ch_out)
 
 
     def forward(self,x):
-        x = self.conv(x)
+        x1 = self.conv1(x)
+        x1 = self.batch1(x1)
+        x1 = F.relu(x1, inplace = True)
+        x1 = self.conv2(x1)
+        x1 = self.batch2(x)
+        x = x + x1
+        x = F.relu(x, inplace = True)
         return x
 
 
@@ -127,8 +132,12 @@ class Model(torch.nn.Module):
     def __init__(self, ip_channel = 3, op_channel = 1) -> None:
         super(Model, self).__init__()
 
-        self.convBlock1 = conv_block(ip_channel, 64)
-        self.convBlock2 = conv_block(64, 128)
-        self.convBlock3 = conv_block(128, 256)
-        
+        self.convBlock1 = conv_res_block(ip_channel, 64)
+        self.convBlock2 = conv_res_block(64, 128)
+        self.convBlock3 = conv_res_block(128, 256)
+
+
+    def forward(self, x):
+        x = self.convBlock1(x)
+
 
